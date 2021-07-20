@@ -6,8 +6,15 @@
     "message": "You shall not pass!"
   }
 */
-function restricted() {
-
+function restricted (req, res, next) {
+  if(!req.headers.cookie){
+    next({
+      status: 401,
+      message: "You shall not pass!"
+    })
+  } else {
+    next()
+  }
 }
 
 /*
@@ -47,3 +54,9 @@ function checkPasswordLength() {
 }
 
 // Don't forget to add these to the `exports` object so they can be required in other modules
+module.exports = {
+  restricted,
+  checkPasswordLength,
+  checkUsernameExists,
+  checkUsernameFree
+}
